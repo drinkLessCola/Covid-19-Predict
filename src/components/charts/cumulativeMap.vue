@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { defineComponent, ref, onMounted, reactive } from "vue";
 import * as echarts from "echarts";
-import chinaJson from '@/assets/china.json'
+import chinaJson from '@/mock/china.json'
 
 echarts.registerMap("china", { geoJSON: JSON.stringify(chinaJson), specialAreas: {} });
 
