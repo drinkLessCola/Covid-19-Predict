@@ -43,7 +43,7 @@ main {
     position:absolute;
     width:1px;
     height:calc(100% - 1.5rem);
-    background-color: #ddd;
+    background-color: #e5e5e5;
     top:50%;
     right:0;
     transform: translateY(-50%);
@@ -61,9 +61,9 @@ main {
         top:50%;
         height:8px;
         width:8px;
-        transform: translate(50%, -50%);
+        transform: translate(calc(50% - 1px), -50%);
         background-color: var(--color-background);
-        border:1px solid var(--color-nav-text);
+        border:1px solid #aaa;
         border-radius:50%;
       }
       &.active {
