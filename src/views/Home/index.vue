@@ -8,6 +8,7 @@
   </aside>
   <main ref="main">
     <cumulativeMap></cumulativeMap>
+    
   </main>
 </template>
 
