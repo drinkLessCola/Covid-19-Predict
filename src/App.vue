@@ -27,18 +27,20 @@ import { RouterLink, RouterView } from 'vue-router'
 // }
 
 header {
+  position: sticky;
+  top: 0;
   grid-area: header;
   line-height: 1.5;
   z-index:50;
   background-color:var(--color-background);
   .title {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-family: HYYakuHei;
       font-weight: normal;
       color:var(--black);
   }
   .menu {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-family: "PingFang SC";
     height:100%;
 
@@ -48,7 +50,7 @@ header {
       justify-content: center;
       height:100%;
       position:relative;
-      padding:0 2rem;
+      padding:0 1.66rem;
       &::after {
         content:'';
         position:absolute;
