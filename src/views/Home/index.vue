@@ -7,10 +7,6 @@
     </ul>
   </aside>
   <main ref="main">
-<<<<<<< HEAD
-    <cumulativeMap></cumulativeMap>
-    
-=======
     <section class="map">
       <header class="header">
         <!-- 月份选择器 -->
@@ -54,7 +50,6 @@
         </li>
       </ul>
     </section>
->>>>>>> 71bba9fbb8b6b0d5e08940f0e0245aa285dfa1b7
   </main>
 </template>
 
