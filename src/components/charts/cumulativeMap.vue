@@ -2,16 +2,20 @@
   <!-- <div id="china_map_box">
     <div id="china_map"></div>
   </div> -->
-  <div class="myChart" ref="myChart" style="width:800px;height:550px;border:1px solid #eee; overflow: hidden;"></div>
+  <div class="myChart" ref="myChart"  :style="{width, height}"></div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, ref, onMounted, reactive } from "vue";
+import { defineComponent, ref, onMounted, reactive, defineProps } from "vue";
 import * as echarts from "echarts";
 import chinaJson from '@/mock/china.json'
 
 echarts.registerMap("china", { geoJSON: JSON.stringify(chinaJson), specialAreas: {} });
 
+const props = defineProps({
+  width:String, 
+  height:String
+})
 const myChart = ref<any>();
 const myCharts = ref<any>();
 interface MapData {
@@ -88,9 +92,9 @@ let options = {
     },
     /* TODO: 不要写成 anyScript */
     formatter(params: any, ticket: string, callback: (ticket: string, html: string) => string | HTMLElement | HTMLElement[]) {
-      console.log(params, ticket, callback )
+      // console.log(params, ticket, callback )
       const { current, increment, name = '' } = params.data || {}
-      console.log(current, increment, name)
+      // console.log(current, increment, name)
 
       let context = `
           <section class="popper">
@@ -206,6 +210,11 @@ onMounted(() => {
   top: 0;
   left: 0;
   width: 45px;
+}
+
+.myChart {
+  border:1px solid #eee; 
+  overflow: hidden;
 }
 </style>
 <style>
