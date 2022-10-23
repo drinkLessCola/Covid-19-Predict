@@ -78,6 +78,7 @@ const data = reactive({
 
 const mainDom = ref<any>()
 function onScroll (e:Event) {
+  
   console.log('!!!')
 }
 
