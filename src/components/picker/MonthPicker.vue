@@ -1,32 +1,43 @@
 <template>
   <div class="month-picker">
-    <div class="picker-input">
+    <div class="picker-input" @click="toggleDropdown">
       <input :value="date">
     </div>
     <!-- TODO:后续将 dropdown 封装为一个组件 -->
-    <section class="dropdown">
-      <table class="month-table">
-        <tr v-for="m, row in month" :key="row">
-          <td v-for="monthStr, col in m" :key="monthStr" @click="handlePick(row * 4 + col)">
-            <div class="cell">{{monthStr}}</div>
-          </td>
-        </tr>
-      </table>
-    </section>
+    <dropdown :show="dropdownVisible">
+      <template #default>
+        <table class="month-table">
+          <tr v-for="m, row in month" :key="row">
+            <td v-for="monthStr, col in m" :key="monthStr" @click="handlePick(row * 4 + col)">
+              <div class="cell">{{monthStr}}</div>
+            </td>
+          </tr>
+        </table>
+      </template>
+    </dropdown>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import dropdown from '../dropdown/index.vue';
+
+const emit = defineEmits(['changeMonth'])
 const month = [['一月', '二月', '三月', '四月'], ['五月', '六月', '七月', '八月'], ['九月', '十月', '十一月', '十二月']]
 const curMonth = new Date().getMonth()
 
 const year = ref(new Date().getFullYear())
 let selectedMonth = ref(curMonth)
-const date = computed(() => `${year.value}-${selectedMonth.value}`)
+let dropdownVisible = ref(false)
+const date = computed(() => `${year.value}-${selectedMonth.value + 1}`)
 
-function handlePick (monthIdx: number) {
-  selectedMonth.value = monthIdx
+function toggleDropdown () {
+  dropdownVisible.value = !dropdownVisible.value
+}
+function handlePick (month: number) {
+  selectedMonth.value = month
+  dropdownVisible.value = false
+  emit('changeMonth', 2022, month + 1)
 }
 </script>
 
@@ -40,7 +51,6 @@ $design_height: 1080;//设计稿的高度，根据实际项目调整
 }
 
 .month-picker {
-  background-color: beige;
 }
 .picker-input {
   display: flex;
@@ -66,16 +76,12 @@ $design_height: 1080;//设计稿的高度，根据实际项目调整
     color: var(--color-picker-text);
   }
 }
-.dropdown {
-  position:absolute;
-  width:px2rem(360);
-  background-color: #fff;
-  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.12);
-}
+
 .month-table {
   table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
+  height:fit-content;
 
   tr {
     margin: 1rem 0;

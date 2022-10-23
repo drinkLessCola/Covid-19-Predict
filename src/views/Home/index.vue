@@ -16,7 +16,7 @@
       <cumulativeMap width="65rem" height="42rem"></cumulativeMap>
       <footer>
         <!-- 日选择器 -->
-        <DateDotPicker :year="year" :month="month" :date="date" @changeDate="handleDateChange"></DateDotPicker>
+        <DateDotPicker :year="year" :month="month" :selectedDate="date" @changeDate="handleDateChange"></DateDotPicker>
       </footer>
     </section>
     <section class="right-panel">
@@ -92,7 +92,6 @@ function joinCommaInNumber(num: number):string {
 }
 function handleDateChange(newDate: number):void {
   date.value = newDate
-  console.log(date.value)
 }
 function handleMonthChange(newYear: number, newMonth:number):void {
   month.value = newMonth

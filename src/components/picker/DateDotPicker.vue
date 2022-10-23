@@ -1,8 +1,7 @@
 <template>
   <ul class="date-picker">
-    {{selectedDate}}
     <li v-for="date in dateNumber" @click="isAvailable(date) && $emit('changeDate', date)">
-      <div class="dot" :class="{ available: isAvailable(date), milestone: !(date % 5), selected: isSelected(date)}"></div>
+      <div class="dot" :class="{ available: isAvailable(date), milestone: !(date % 5), selected: date === selectedDate}"></div>
     </li>
   </ul>
 </template>
@@ -10,7 +9,7 @@
 <script setup lang="ts">
 import { ref, computed, defineProps } from 'vue';
 
-const {year, month, date:selectedDate } = defineProps({
+const props = defineProps({
   year: {
     type:Number,
     required: true
@@ -19,15 +18,18 @@ const {year, month, date:selectedDate } = defineProps({
     type:Number,
     required: true
   },
-  date: {
+  selectedDate: {
     type:Number,
     required: true
   }
 })
+// const selectedDate = ref(date)
+// console.log(selectedDate)
 
-console.log(selectedDate)
-
-let dateNumber = computed(() => getDateNum(year, month))
+let dateNumber = computed(() => {
+  const {year, month} = props
+  return getDateNum(year, month)
+})
 
 const curDate = new Date().getDate(),
       curMonth = new Date().getMonth() + 1
@@ -37,10 +39,12 @@ const curDate = new Date().getDate(),
  * @param date 
  */
 function isAvailable(date:number):boolean {
+  const { month } = props
   return (curMonth > month) || (curMonth === month && date <= curDate)
 }  
 
 function isSelected(date:number):boolean {
+  const { selectedDate } = props
   console.log(selectedDate)
   return date === selectedDate
 }
