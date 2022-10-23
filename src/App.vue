@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <header>
     <h1 class="title">新冠疫情预测系统</h1>
     <nav class="menu">
-      <RouterLink to="/">首页</RouterLink>
+      <RouterLink to="/home">首页</RouterLink>
       <RouterLink to="/system">预测系统</RouterLink>
       <RouterLink to="/literature">参考文献</RouterLink>
       <RouterLink to="/about">关于我们</RouterLink>
