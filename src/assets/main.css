@@ -3,7 +3,7 @@
 #app {
   width:100vw;
   height:100vh;
-  overflow: auto;
+  overflow: hidden;
   margin: 0 auto;
   display: grid;
 }
@@ -28,12 +28,12 @@ a{
 
   #app {
     display: grid;
-    grid-template-rows:var(--header-height) 1fr 30vh;
+    grid-template-rows:var(--header-height) 1fr /*30vh*/;
     grid-template-columns:1fr minmax(auto, 1280px) 1fr;
     grid-template-areas:
       "header header header"
-      ". body ."
-      "footer footer footer";
+      "leftside body body";
+      /* "footer footer footer"; */
   }
 }
 

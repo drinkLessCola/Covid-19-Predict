@@ -15,8 +15,6 @@ import { RouterLink, RouterView } from 'vue-router'
   <section class="body">
     <RouterView/>
   </section>
-
-
 </template>
 
 <style scoped lang="scss">
@@ -81,6 +79,10 @@ header {
 .body {
   grid-area:body;
   display: flex;
+  width: 100%;
+  height:100%;
+  // height: 100vh;
+  overflow: hidden;
 }
 
 

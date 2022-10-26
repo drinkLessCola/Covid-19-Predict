@@ -1,10 +1,9 @@
 <template>
-  <div class="month-picker">
+  <div class="month-picker" ref="monthPicker">
     <div class="picker-input" @click="toggleDropdown">
       <input :value="date">
     </div>
-    <!-- TODO:后续将 dropdown 封装为一个组件 -->
-    <dropdown :show="dropdownVisible">
+    <dropdown :show="dropdownVisible" >
       <template #default>
         <table class="month-table">
           <tr v-for="m, row in month" :key="row">
@@ -19,20 +18,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 import dropdown from '../dropdown/index.vue';
 
 const emit = defineEmits(['changeMonth'])
 const month = [['一月', '二月', '三月', '四月'], ['五月', '六月', '七月', '八月'], ['九月', '十月', '十一月', '十二月']]
 const curMonth = new Date().getMonth()
 
+const monthPicker = ref<any>()
 const year = ref(new Date().getFullYear())
 let selectedMonth = ref(curMonth)
 let dropdownVisible = ref(false)
 const date = computed(() => `${year.value}-${selectedMonth.value + 1}`)
 
+
+
 function toggleDropdown () {
-  dropdownVisible.value = !dropdownVisible.value
+  // dropdown 可见
+  if(dropdownVisible.value) {
+    dropdownVisible.value = false
+    document.removeEventListener('click', handleGlobalClick)
+  } else {
+    dropdownVisible.value = true
+    // nextTick(() => {
+      document.addEventListener('click', handleGlobalClick)
+    // })
+  }
+}
+
+function handleGlobalClick (event:Event) {
+  if(!dropdownVisible.value) return
+  const target = event.target as HTMLElement
+  // 点击 dropdown 外侧区域
+  if(!monthPicker.value.contains(target)) {
+    dropdownVisible.value = false
+  }
 }
 function handlePick (month: number) {
   selectedMonth.value = month

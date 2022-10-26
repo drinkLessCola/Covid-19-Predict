@@ -1,7 +1,9 @@
 <template>
     <div class="Box">
         <div class="latestChart"> </div>
-        <div class="infoBox"></div>
+        <div class="infoBox">
+            
+        </div>
         <div class="locName">广州</div>
         <div class="locIcon"></div>
         <div class="arrow"></div>
@@ -24,7 +26,7 @@
   }
   </script>
 
-  <style>
+  <style scoped>
     li{
         list-style: none;
     }
@@ -68,7 +70,7 @@
         width: 80px;
         height: 40px;
         font-size: 40px;
-        font-family: PingFang SC-粗体, PingFang SC;
+        font-family: PingFang SC Bold;
         font-weight: normal;
         color: #333333;
         line-height: 40px;
@@ -98,7 +100,7 @@
         width: 165px;
         height: 25px;
         font-size: 18px;
-        font-family: PingFang SC-中等, PingFang SC;
+        font-family: PingFang SC Bold;
         font-weight: normal;
         color: #555555;
         line-height: 25px;
@@ -117,21 +119,21 @@
     .split1{
         font-size: 24px;
         font-weight: bold;
-        font-family: Gilroy-Bold;
+        font-family: PingFang SC;
         color: #000000;
         height: 44px;
     }
     .split2{
         font-size: 42px;
         font-weight: bold;
-        font-family: D-DIN-Bold;
+        font-family: DIN;
         color: #5438F5;
         height: 44px;
     }
     .split3{
         font-size: 24px;
         font-weight: bold;
-        font-family: Gilroy-Bold;
+        font-family: PingFang SC;
         color: #000000;
         height: 44px;
     }
