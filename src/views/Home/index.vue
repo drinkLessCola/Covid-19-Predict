@@ -1,15 +1,17 @@
 <template>
-  <aside>
-    <ul class="menu">
-      <li>分布情况图</li>
-      <li>趋势图</li>
-      <li>国内突发新冠疫情预测</li>
-    </ul>
-  </aside>
-  <main ref="main">
-    <cumulativeMap></cumulativeMap>
-    
-  </main>
+  <div>
+    <aside>
+      <ul class="menu">
+        <li>分布情况图</li>
+        <li>趋势图</li>
+        <li>国内突发新冠疫情预测</li>
+      </ul>
+    </aside>
+    <main ref="main">
+      <cumulativeMap></cumulativeMap>
+    </main>
+  </div>
+  
 </template>
 
 <script setup lang="ts">

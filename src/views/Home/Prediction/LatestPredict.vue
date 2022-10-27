@@ -1,49 +1,65 @@
 <template>
-    <div class="Box">
-        <div class="latestChart"> </div>
-        <div class="infoBox"></div>
-        <div class="locName">广州</div>
-        <div class="locIcon"></div>
-        <div class="arrow"></div>
-        <div class="time">预测于 2022/10/18</div>
-        <div class="info">
-            <span class="split1">预测将于</span><br>
-            <span class="split2">10.24</span> <span class="split3">新增感染&lt;10人</span>
-        </div>
-        <div class="endInfo">
-            <span class="split1">预测将于</span><br>
-            <span class="split2">11.03</span> <span class="split3">结束</span>
+    <div>
+        <div class="latestContainer">
+            <div class="infoBox">
+                <div class="latestChart">图片</div>
+                    <div class="latestInfo">
+                        <div class="infoSquare">
+                            <ul class="locBox">
+                                <li class="locIcon"></li>
+                                <li class="locName">广州</li>
+                                <li class="arrow"></li>
+                            </ul>
+                                
+                            <div class="time">预测于 2022/10/18</div>
+
+                            <div class="info">
+                                <span class="split1">预测将于</span><br>
+                                <span class="split2">10.24</span> <span class="split3">新增感染&lt;10人</span>
+                            </div>
+                            <div class="endInfo">
+                                <span class="split1">预测将于</span><br>
+                                <span class="split2">11.03</span> <span class="split3">结束</span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
         </div>
     </div>
-   
 </template>
   
   <script>
   export default {
-    name: 'LastestPredict',
+    name: 'LatestPredict',
   }
   </script>
 
   <style>
-    li{
-        list-style: none;
-    }
     *{
         margin: 0;
         padding: 0;
     }
-    .Box{
-        position: relative;
+    li{
+        list-style: none;
+    }
+    .latestContainer{
+        display: flex;
         width: 1453px;
-        height: 923px;
-        border-radius: 0px 0px 0px 0px;
+        height: 400px;
+        /* background: blue; */
+    }
+    .infoBox{
+        display: flex;
+        justify-content: space-between;
+        margin-left: 20px;
+        width: 1200px;
+        height: 400px;
+        border-radius: 10px 10px 10px 10px;
         opacity: 1;
-        /* background-color: red; */
+        border: 1px solid rgba(170,170,170,0.5);
+        /* background-color: green; */
     }
     .latestChart{
-        position: absolute;
-        left: 20px;
-        top: 72px;
         width: 1200px;
         height: 400px;
         border-radius: 10px 10px 10px 10px;
@@ -51,62 +67,70 @@
         border: 1px solid rgba(170,170,170,0.5);
         /* background-color: yellow; */
     }
-    .infoBox{
-        position: absolute;
-        left: 820px;
-        top: 72px;
+    .latestInfo{
+        flex-shrink: 0;
         width: 400px;
         height: 400px;
         background: linear-gradient(227deg, #C6CFFF 0%, #E8D3FF 100%);
         border-radius: 0px 10px 10px 0px;
         opacity: 1;
     }
+    .infoSquare{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 28px;
+        width: 344px;
+        height: 344px;
+        /* background-color: yellowGreen; */
+    }
+    .locBox{
+        display: flex;
+        /* flex-direction: row; */
+        /* justify-content: space-between; */
+        width: 344px;
+        height: 40px;
+        /* background-color: #652; */
+    }
     .locName{
-        position: absolute;
-        top: 100px;
-        left: 896px;
+        flex: 1 1 auto;
         width: 80px;
         height: 40px;
+        margin-left: 10px;
         font-size: 40px;
-        font-family: PingFang SC-粗体, PingFang SC;
+        font-family: PingFang SC Bold;
         font-weight: normal;
         color: #333333;
         line-height: 40px;
+        /* background-color: yellow; */
     }
     .locIcon{
-        position: absolute;
-        left: 856px;
-        top: 105px;
-        width: 25px;
-        height: 30px;
+        margin-top:2px;
+        margin-left: 2px;
+        width: 36px;
+        height: 36px;
         background: #000000;
         opacity: 1;
     }
     .arrow{
-        position: absolute;
-        left: 1166px;
-        top: 105px;
-        width: 18px;
-        height: 30px;
+        margin-right: 25px;
+        width: 40px;
+        height: 40px;
         background: #000000;
         opacity: 1;
     }
     .time{
-        position: absolute;
-        left: 850px;
-        top: 148px;
+        flex: 1 1 auto;
         width: 165px;
         height: 25px;
         font-size: 18px;
-        font-family: PingFang SC-中等, PingFang SC;
+        font-family: PingFang SC;
         font-weight: normal;
         color: #555555;
+        /* background-color: red; */
         line-height: 25px;
     }
     .info{
-        position: absolute;
-        top: 271px;
-        left: 850px;
         width: 296px;
         height: 88px;
         font-size: 24px;
@@ -136,9 +160,7 @@
         height: 44px;
     }
     .endInfo{
-        position: absolute;
-        top: 369px;
-        left: 850px;
+        margin-top: 10px;
         width: 296px;
         height: 88px;
         font-size: 24px;

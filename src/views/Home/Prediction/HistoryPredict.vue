@@ -1,19 +1,22 @@
 <template>
-    <div class="Box">
-        <div class="chart">
-            预测图
-            <!-- <img src="" alt=""> -->
-            <div class="mask">
-                <h3>深圳·20221015</h3>
-                <h4>查看详情</h4>
-                <div class="arrow">></div>
+    <div>
+        <div class="H-Box">
+            <div class="chart">
+                <!-- <img src="" alt=""> -->
+                <div class="mask">
+                    <h3>深圳·20221015</h3>
+                    <div class="linkBox">
+                        <h4>查看详情</h4>
+                        <div class="H-arrow">></div>
+                    </div>
+                </div>
+            </div>
+            <div class="H-infoBox">
+                <div class="H-location">深圳</div>
+                <div class="H-time">2022/10/15</div>
             </div>
         </div>
-        <h3 class="location">深圳</h3>
-        <h4 class="time">2022/10/15</h4>
-        
     </div>
-   
 </template>
   
   <script>
@@ -27,9 +30,9 @@
         margin: 0;
         padding: 0;
     }
-    .Box{
-        position: relative;
-        left: 20px;
+    .H-Box{
+        display: flex;
+        flex-direction: column;
         width: 400px;
         height: 374px;
         text-align: center;
@@ -40,7 +43,6 @@
 
 
     .chart{
-        position: relative;
         width: 400px;
         height: 300px;
         border-radius: 10px 10px 10px 10px;
@@ -55,9 +57,10 @@
     }
 
     .mask{
-        position: absolute;
-        left: 0;
-        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         width: 400px;
         height: 300px;
         background: rgba(65,80,255,0.8);
@@ -69,66 +72,73 @@
         opacity: 1;
     }
 
+    .H-infoBox{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        height: 34px;
+        /* background-color: green; */
+    }
+
 
     .mask h3{
-        position: absolute;
-        top: 128px;
-        bottom: 201px;
-        left: 100px;
-        width: 200px;
+        /* width: 200px; */
         height: 45px;
-        font-size: 20px;
-        /* font-family: PingFang SC-粗体, PingFang SC; */
+        font-size: 32px;
+        font-family:PingFang SC Bold;
         font-weight: normal;
         color: #fff;
         line-height: 45px;
+        /* background-color: #982; */
     }
     
     .mask h4{
-        position: absolute;
-        top: 183px;
-        left: 155px;
         width: 72px;
         height: 25px;
         font-size: 18px;
-        /* font-family: PingFang SC-中等, PingFang SC; */
+        font-family:PingFang SC;
         font-weight: normal;
         color: #FFFFFF;
         line-height: 25px;
+        /* background-color: #856; */
     }
 
-    .arrow{
-        position: absolute;
-        top: 185px;              /*这里的位置调的感觉和原型图不太对，可能是position设置问题 或者是字体？？*/
-        left: 237px;           
-        width: 9px;
-        height: 15px;
-        color: #FFFFFF  ;
+    .linkBox{
+        height: 25px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .H-arrow{    
+        margin-left: 10px;
+        /* width: 9px;
+        height: 15px; */
+        color: #FFFFFF;
         opacity: 1;
     }
     
-    .location{
-        position: absolute;
-        top: 310px;
-        left: 10px;
+    .H-location{
+        margin-left: 10px;
         width: 48px;
         height: 34px;
         font-size: 24px;
-        font-family: PingFang SC-中等, PingFang SC;
+        font-family:PingFang SC;
         font-weight: normal;
         color: #555555;
         line-height: 34px;
+        /* background-color: blue; */
     }
-    .time{
-        position: absolute;
-        left: 297px;
-        top: 316px;
-        width: 92px;
+    .H-time{
+        margin-right: 11px;
         height: 21px;
         font-size: 18px;
-        font-family: Gilroy-Regular, Gilroy;
+        font-family: Gilroy;
         font-weight: 400;
         color: #888888;
         line-height: 21px;
+        /* background-color: blueViolet; */
     }
 </style>
