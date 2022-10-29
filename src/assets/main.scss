@@ -1,4 +1,5 @@
 @import "./base.css";
+@import "./px2rem.scss";
 
 #app {
   width:100vw;
@@ -28,8 +29,8 @@ a{
 
   #app {
     display: grid;
-    grid-template-rows:var(--header-height) 1fr /*30vh*/;
-    grid-template-columns:1fr minmax(auto, 1280px) 1fr;
+    grid-template-rows:px2rem(80) 1fr /*30vh*/;
+    grid-template-columns:px2rem(100) 1fr minmax(auto, 1280px) 1fr;
     grid-template-areas:
       "header header header"
       "leftside body body";
@@ -40,3 +41,4 @@ a{
 ul{
   list-style: none;
 }
+

@@ -2,7 +2,7 @@
   <!-- <div id="china_map_box">
     <div id="china_map"></div>
   </div> -->
-  <div class="myChart" ref="myChart"  :style="{width, height}"></div>
+  <div class="myChart" ref="myChart" ></div>
 </template>
 
 <script setup lang="ts">
@@ -195,7 +195,12 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@function px2rem($px) {
+   $design_font_size: 18;
+   @return calc($px/$design_font_size) + rem;
+}
+
 #china_map_box {
   height: 100%; 
   position: relative;
@@ -215,6 +220,8 @@ onMounted(() => {
 .myChart {
   border:1px solid #eee; 
   overflow: hidden;
+  width: px2rem(1038);
+  height: px2rem(680);
 }
 </style>
 <style>

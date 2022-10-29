@@ -18,6 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped lang="scss">
+@import "@/assets/px2rem.scss";
 // @font-face {
 //     font-family: "HanYiKuYaHei";
 //     font-weight: 500;
@@ -28,17 +29,17 @@ header {
   position: sticky;
   top: 0;
   grid-area: header;
-  line-height: 1.5;
+  // line-height: 1.5;
   z-index:50;
   background-color:var(--color-background);
   .title {
-      font-size: 2rem;
+      font-size: px2rem(30);
       font-family: HYYakuHei;
       font-weight: normal;
       color:var(--black);
   }
   .menu {
-    font-size: 1.25rem;
+    font-size: px2rem(20);
     font-family: "PingFang SC";
     height:100%;
 
@@ -48,7 +49,7 @@ header {
       justify-content: center;
       height:100%;
       position:relative;
-      padding:0 1.66rem;
+      padding:0 px2rem(37.5);
       &::after {
         content:'';
         position:absolute;
@@ -57,7 +58,7 @@ header {
         right:0;
         margin:0 auto; //margin 0 auto 为什么生效来着？
         width:80%;
-        height:3px;
+        height: px2rem(3);
         background-color:var(--primary);
         transition:all .15s ease-in-out;
         transform:scaleX(0);
@@ -84,7 +85,6 @@ header {
   // height: 100vh;
   overflow: hidden;
 }
-
 
 @media (min-width: 1024px) {
   header {

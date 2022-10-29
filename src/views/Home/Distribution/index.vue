@@ -1,12 +1,12 @@
 <template>
   <div class="distribution">
-    <section class="map">
+    <section class="map-container">
       <header class="header">
         <!-- 月份选择器 -->
         <MonthPicker :year="year" :month="month" @changeMonth="handleMonthChange"></MonthPicker>
       </header>
       <!-- 疫情地图 -->
-      <cumulativeMap width="65rem" height="42rem"></cumulativeMap>
+      <cumulativeMap></cumulativeMap>
       <footer>
         <!-- 日选择器 -->
         <DateDotPicker :year="year" :month="month" :selectedDate="date" @changeDate="handleDateChange"></DateDotPicker>
@@ -89,13 +89,13 @@ function handleMonthChange(newYear: number, newMonth:number):void {
 }
 </script>
 <style scoped lang="scss">
-$design_width: 1920;//设计稿的宽度，根据实际项目调整
-$design_height: 1080;//设计稿的高度，根据实际项目调整
 
 @function px2rem($px) {
-   $design_font_size: 16;
+   $design_font_size: 18;
    @return calc($px/$design_font_size) + rem;
 }
+
+
 .distribution {
   display: flex;
   margin: px2rem(30) 1rem;
