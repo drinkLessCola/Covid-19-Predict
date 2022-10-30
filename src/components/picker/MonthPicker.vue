@@ -4,13 +4,13 @@
       <svg-icon icon="calendar" class="icon"></svg-icon>
       <input :value="date">
     </div>
-    <dropdown :show="dropdownVisible" >
+    <dropdown :show="dropdownVisible">
       <template #default>
         <section class="year-bar">
           <button @click="toPrevYear">
             <svg-icon icon="arrow-left" class="icon"></svg-icon>
           </button>
-          <div class="year">{{year}}</div>
+          <div class="year">{{ year }}</div>
           <button @click="toNextYear">
             <svg-icon icon="arrow-right" class="icon"></svg-icon>
           </button>
@@ -18,7 +18,7 @@
         <table class="month-table">
           <tr v-for="m, row in month" :key="row">
             <td v-for="monthStr, col in m" :key="monthStr" @click="handlePick(row * 4 + col)">
-              <div class="cell">{{monthStr}}</div>
+              <div class="cell">{{ monthStr }}</div>
             </td>
           </tr>
         </table>
@@ -43,41 +43,41 @@ const date = computed(() => `${year.value}-${selectedMonth.value + 1}`)
 
 
 
-function toggleDropdown () {
+function toggleDropdown() {
   // dropdown 可见
-  if(dropdownVisible.value) {
+  if (dropdownVisible.value) {
     dropdownVisible.value = false
     document.removeEventListener('click', handleGlobalClick)
   } else {
     dropdownVisible.value = true
     // nextTick(() => {
-      document.addEventListener('click', handleGlobalClick)
+    document.addEventListener('click', handleGlobalClick)
     // })
   }
 }
 
-function handleGlobalClick (event:Event) {
-  if(!dropdownVisible.value) return
+function handleGlobalClick(event: Event) {
+  if (!dropdownVisible.value) return
   const target = event.target as HTMLElement
   // 点击 dropdown 外侧区域
-  if(!monthPicker.value.contains(target)) {
+  if (!monthPicker.value.contains(target)) {
     dropdownVisible.value = false
   }
 }
 
-function handlePick (month: number) {
+function handlePick(month: number) {
   selectedMonth.value = month
   dropdownVisible.value = false
   emit('changeMonth', year.value, month + 1)
 }
 
-function toPrevYear () { 
-  year.value-- 
+function toPrevYear() {
+  year.value--
   emit('changeMonth', year.value, selectedMonth.value + 1)
 }
 
-function toNextYear () { 
-  year.value++ 
+function toNextYear() {
+  year.value++
   emit('changeMonth', year.value, selectedMonth.value + 1)
 }
 </script>
@@ -85,26 +85,25 @@ function toNextYear () {
 <style lang="scss">
 @import "@/assets/px2rem.scss";
 
-.month-picker {
+.month-picker {}
 
-}
 .picker-input {
   display: flex;
   align-items: center;
-  width:px2rem(230);
-  height:px2rem(50);
-  border:1px solid var(--color-picker-border);
+  width: px2rem(230);
+  height: px2rem(50);
+  border: 1px solid var(--color-picker-border);
   border-radius: px2rem(10);
   padding: px2rem(8);
   background-color: var(--color-background);
 
 
   input {
-    width:100%;
+    width: 100%;
     display: inline-block;
-    flex:1;
+    flex: 1;
     background: none;
-    border:none;
+    border: none;
     font-size: px2rem(24);
     text-align: center;
     font-family: Gilroy;
@@ -112,28 +111,32 @@ function toNextYear () {
     color: var(--color-picker-text);
   }
 }
+
 .year-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1rem .5rem 1rem;
-  line-height:1rem;
+  line-height: 1rem;
   box-sizing: border-box;
+
   .year {
     color: #3d3d3d;
     font-family: Gilroy;
     font-size: 1.5rem;
   }
+
   button {
-    background:none;
-    border:none;
+    background: none;
+    border: none;
   }
 }
+
 .month-table {
   table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
-  height:fit-content;
+  height: fit-content;
 
   tr {
     margin: 1rem 0;
@@ -146,23 +149,23 @@ function toNextYear () {
     .cell {
       width: 60px;
       height: px2rem(60);
-      line-height:px2rem(60);
+      line-height: px2rem(60);
       margin: 0 auto;
-      color:var(--color-nav-text);
+      color: var(--color-nav-text);
 
       &:hover {
-        color:var(--color-active-text);
-        cursor:pointer;
+        color: var(--color-active-text);
+        cursor: pointer;
       }
     }
   }
 
-  
+
 }
 
 .icon {
-  width:px2rem(30);
-  height:px2rem(30);
-  cursor:pointer;
+  width: px2rem(30);
+  height: px2rem(30);
+  cursor: pointer;
 }
 </style>

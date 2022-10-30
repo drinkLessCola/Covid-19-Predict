@@ -4,27 +4,18 @@
       <slot></slot>
     </div>
     <Transition name="scrollbar-fade">
-      <div class="bar vertical" 
-        v-show="verticalThumbState.overflow && (wrapperActive || verticalThumbState.isDragging)" 
-        :style="`width: ${thumbWidth}px`"
-        @mousedown="handleMouseDown"
-      >
-        <div class="thumb" 
-          ref="verticalThumb"  
-          :style="`transform: translateY(${scrollY}px); height: ${verticalThumbState.height}px`"
-        ></div>
+      <div class="bar vertical" v-show="verticalThumbState.overflow && (wrapperActive || verticalThumbState.isDragging)"
+        :style="`width: ${thumbWidth}px`" @mousedown="handleMouseDown">
+        <div class="thumb" ref="verticalThumb"
+          :style="`transform: translateY(${scrollY}px); height: ${verticalThumbState.height}px`"></div>
       </div>
     </Transition>
     <Transition name="scrollbar-fade">
-      <div class="bar horizontal" 
-        v-show="horizontalThumbState.overflow && (wrapperActive || horizontalThumbState.isDragging)" 
-        :style="`height: ${thumbWidth}px`"
-        @mousedown="handleMouseDown" 
-      >
-        <div class="thumb" 
-          ref="horizontalThumb" 
-          :style="`transform: translateX(${scrollX}px); width: ${horizontalThumbState.width}px`"
-        ></div>
+      <div class="bar horizontal"
+        v-show="horizontalThumbState.overflow && (wrapperActive || horizontalThumbState.isDragging)"
+        :style="`height: ${thumbWidth}px`" @mousedown="handleMouseDown">
+        <div class="thumb" ref="horizontalThumb"
+          :style="`transform: translateX(${scrollX}px); width: ${horizontalThumbState.width}px`"></div>
       </div>
     </Transition>
   </div>
@@ -45,25 +36,25 @@ const scrollbarWrapper = ref<HTMLElement>() // wrapper
 const scrollbarView = ref<HTMLElement>()    // 视图
 
 let wrapperActive = ref(false)  // 鼠标是否移入实例，用于控制滚动条的显隐
-let wrapperCoord = reactive<{height:number, width:number, left:number, top:number }>({
-  height:0,
-  width:0,
-  top:0,
-  left:0
+let wrapperCoord = reactive<{ height: number, width: number, left: number, top: number }>({
+  height: 0,
+  width: 0,
+  top: 0,
+  left: 0
 })
 
 const thumbWidth = 10           // 滚动条的厚度
 let scrollX = ref<number>(0),   // 水平滚动条的偏移量
-    scrollY = ref<number>(0)    // 垂直滚动条的偏移量
+  scrollY = ref<number>(0)    // 垂直滚动条的偏移量
 
-const verticalThumbState = reactive<{height: number, maxScrollY: number, isDragging: boolean, overflow: boolean}>({
+const verticalThumbState = reactive<{ height: number, maxScrollY: number, isDragging: boolean, overflow: boolean }>({
   height: 0,
   maxScrollY: 0,
   isDragging: false,
   overflow: false
 })
 
-const horizontalThumbState = reactive<{width: number, maxScrollX: number, isDragging: boolean, overflow: boolean}>({
+const horizontalThumbState = reactive<{ width: number, maxScrollX: number, isDragging: boolean, overflow: boolean }>({
   width: 0,
   maxScrollX: 0,
   isDragging: false,
@@ -76,8 +67,8 @@ const horizontalThumbState = reactive<{width: number, maxScrollX: number, isDrag
  * @param event 
  */
 function handleMouseDown(event: MouseEvent) {
-  const { 
-    left: wrapperClientLeft, 
+  const {
+    left: wrapperClientLeft,
     top: wrapperClientTop
   } = wrapperCoord
 
@@ -89,16 +80,16 @@ function handleMouseDown(event: MouseEvent) {
   // 拖动的目标元素
   const target = isVertical ?
     verticalThumb.value as HTMLElement :
-    horizontalThumb.value as HTMLElement 
-  
+    horizontalThumb.value as HTMLElement
+
   // 设置滑块的拖动状态
   verticalThumbState.isDragging = isVertical
   horizontalThumbState.isDragging = !isVertical
 
   const { left: targetClientLeft, top: targetClientTop } = target.getBoundingClientRect()
   const maxScrollX = horizontalThumbState.maxScrollX,
-        maxScrollY = verticalThumbState.maxScrollY
-        
+    maxScrollY = verticalThumbState.maxScrollY
+
   // 鼠标事件的坐标
   const { clientX: startX, clientY: startY } = event
   // 鼠标事件的坐标 相对于 scrollbar 的滑块左上角的偏移值
@@ -118,23 +109,23 @@ function handleMouseDown(event: MouseEvent) {
    * 处理鼠标移动滑块
    * @param event 
    */
-   function handleMouseMove(event: MouseEvent) {
+  function handleMouseMove(event: MouseEvent) {
     const { clientX, clientY } = event
     // 点击事件
-    if(isClick && (Math.abs(clientX - startX) >= 3 || Math.abs(clientY - startY) >= 3)) {
+    if (isClick && (Math.abs(clientX - startX) >= 3 || Math.abs(clientY - startY) >= 3)) {
       console.log("isn's Click")
       isClick = false
     }
     moveTo(target, clientX, clientY)
   }
-  
+
   /**
    * 鼠标按键松开，移动滑块结束
    * @param event 
    */
   function handleMouseUp(event: MouseEvent) {
     // 处理点击事件
-    if(isClick) handleClickBar(event)
+    if (isClick) handleClickBar(event)
     horizontalThumbState.isDragging = verticalThumbState.isDragging = false
     document.removeEventListener('mousemove', handleMouseMove)
     document.removeEventListener('mouseup', handleMouseUp)
@@ -148,12 +139,12 @@ function handleMouseDown(event: MouseEvent) {
    */
   function moveTo(target: HTMLElement, x: number, y: number) {
     const translateX = isVertical ? 0 : x - wrapperClientLeft - shift.x,
-          translateY = isVertical ? y - wrapperClientTop - shift.y : 0
+      translateY = isVertical ? y - wrapperClientTop - shift.y : 0
 
     // translateX 取值在 0 ~ maxScrollX 之间
     // translateY 取值在 0 ~ maxScrollY 之间
-    if(target === horizontalThumb.value) scrollX.value = Math.min( Math.max(0, translateX), maxScrollX )
-    if(target === verticalThumb.value) scrollY.value = Math.min( Math.max(0, translateY), maxScrollY )
+    if (target === horizontalThumb.value) scrollX.value = Math.min(Math.max(0, translateX), maxScrollX)
+    if (target === verticalThumb.value) scrollY.value = Math.min(Math.max(0, translateY), maxScrollY)
 
     console.log(scrollX.value, scrollY.value)
     update()
@@ -165,7 +156,7 @@ function handleMouseDown(event: MouseEvent) {
  * scroll 事件只有在 overflow: scroll | auto 的状态下才能产生
  * @param event 
  */
-function handleScroll (event: UIEvent) {
+function handleScroll(event: UIEvent) {
   const viewDom = scrollbarView.value as HTMLElement
   scrollY.value = viewDom.scrollTop / viewDom.scrollHeight * wrapperCoord.height
   scrollX.value = viewDom.scrollLeft / viewDom.scrollWidth * wrapperCoord.width
@@ -175,22 +166,22 @@ function handleScroll (event: UIEvent) {
  * 处理滚动条所在轨道的点击事件
  * @param event 
  */
-function handleClickBar (event: MouseEvent) {
+function handleClickBar(event: MouseEvent) {
   const target = (event.target as HTMLElement).closest('.bar')
-  if(!target) return
+  if (!target) return
 
   const isVertical = target.classList.contains('vertical')
   const { clientX, clientY } = event
   const { top: wrapperClientTop, left: wrapperClientLeft } = wrapperCoord
 
-  if(isVertical) {
-    const { height:thumbHeight, maxScrollY } = verticalThumbState
+  if (isVertical) {
+    const { height: thumbHeight, maxScrollY } = verticalThumbState
     const translateY = clientY - wrapperClientTop - thumbHeight / 2
-    scrollY.value = Math.min( Math.max(0, translateY), maxScrollY )
+    scrollY.value = Math.min(Math.max(0, translateY), maxScrollY)
   } else {
-    const { width:thumbWidth, maxScrollX } = horizontalThumbState
+    const { width: thumbWidth, maxScrollX } = horizontalThumbState
     const translateX = clientX - wrapperClientLeft - thumbWidth / 2
-    scrollX.value = Math.min( Math.max(0, translateX), maxScrollX )
+    scrollX.value = Math.min(Math.max(0, translateX), maxScrollX)
   }
 
   update()
@@ -203,17 +194,17 @@ function update() {
   const viewDom = scrollbarView.value as HTMLElement
 
   const barHeight = wrapperCoord.height - thumbWidth,
-        barWidth = wrapperCoord.width - thumbWidth
-  
+    barWidth = wrapperCoord.width - thumbWidth
+
   viewDom.scrollTop = scrollY.value / barHeight * viewDom.scrollHeight
   viewDom.scrollLeft = scrollX.value / barWidth * viewDom.scrollWidth
 }
 
 const showScrollbar = () => wrapperActive.value = true,
-      hideScrollbar = () => wrapperActive.value = false
+  hideScrollbar = () => wrapperActive.value = false
 
 
-function scrollTo(x:number, y:number) {
+function scrollTo(x: number, y: number) {
   const viewDom = scrollbarView.value as HTMLElement
   viewDom.scrollTo({
     top: y,
@@ -224,28 +215,28 @@ function scrollTo(x:number, y:number) {
 
 function scrollIntoView(elem: HTMLElement) {
   const wrapDom = scrollbarWrapper.value as HTMLElement
-  if(!wrapDom.contains(elem)) return
+  if (!wrapDom.contains(elem)) return
 
-  const {top, left} = elem.getBoundingClientRect()
-  const {top: wrapperClientTop, left: wrapperClientLeft} = wrapperCoord
+  const { top, left } = elem.getBoundingClientRect()
+  const { top: wrapperClientTop, left: wrapperClientLeft } = wrapperCoord
   scrollTo(left - wrapperClientLeft, top - wrapperClientTop)
 }
 /**
  * 初始化 scrollbar
  */
-function initScrollbar () {
+function initScrollbar() {
   const wrapperDom = scrollbarWrapper.value as HTMLElement,
-        viewDom = scrollbarView.value as HTMLElement
+    viewDom = scrollbarView.value as HTMLElement
 
   // 计算滚动条的长度 & 最大偏移量 & 是否溢出
   const { left, top } = wrapperDom.getBoundingClientRect()
-  const { clientHeight:height, clientWidth:width } = wrapperDom
+  const { clientHeight: height, clientWidth: width } = wrapperDom
   const { scrollHeight, scrollWidth } = viewDom
 
   wrapperCoord = { left, top, width, height }
 
-  const horizontalThumbWidth = width / scrollWidth * ( width - thumbWidth )
-  const verticalThumbHeight = height / scrollHeight * ( height - thumbWidth )
+  const horizontalThumbWidth = width / scrollWidth * (width - thumbWidth)
+  const verticalThumbHeight = height / scrollHeight * (height - thumbWidth)
 
   verticalThumbState.height = verticalThumbHeight
   verticalThumbState.maxScrollY = height - thumbWidth - verticalThumbHeight
@@ -258,14 +249,14 @@ function initScrollbar () {
 
 onMounted(() => {
   const verticalThumbDom = verticalThumb.value as HTMLElement,
-        horizontalThumbDom = horizontalThumb.value as HTMLElement
-  
+    horizontalThumbDom = horizontalThumb.value as HTMLElement
+
   // 取消原生 drag 和 select 事件
   // TODO: 还没有取消 bar 的 select 事件
   const cancelEventHandler = () => false
   verticalThumbDom.ondragstart = horizontalThumbDom.ondragstart = cancelEventHandler
   verticalThumbDom.onselectstart = horizontalThumbDom.onselectstart = cancelEventHandler
-  
+
   // 监听 resize 事件
   window.onresize = initScrollbar
 
@@ -284,20 +275,23 @@ onBeforeUnmount(() => {
   position: relative;
   overflow: hidden;
 }
+
 .scrollbar-view {
-  position:absolute;
-  left:0;
-  top:0;
+  position: absolute;
+  left: 0;
+  top: 0;
   /* 🥺对滚动条无计可施，自暴自弃 */
-  height:calc(100% + 17px);
-  width:calc(100% + 17px);
+  height: calc(100% + 17px);
+  width: calc(100% + 17px);
   overflow: scroll;
   // 会导致 scrollTop 始终为 0
   // scroll-behavior: smooth;
 }
+
 .bar {
   transition: opacity .2s ease-in-out;
   position: absolute;
+
   &.horizontal {
     width: 100%;
     bottom: 0;
@@ -320,6 +314,7 @@ onBeforeUnmount(() => {
     }
   }
 }
+
 .thumb {
   position: absolute;
   border-radius: 5px;
@@ -335,10 +330,9 @@ onBeforeUnmount(() => {
 .scrollbar-fade-leave-active {
   transition: all 0.25s ease;
 }
+
 .scrollbar-fade-enter-from,
 .scrollbar-fade-leave-to {
   opacity: 0;
 }
-
-
 </style>

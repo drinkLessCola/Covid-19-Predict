@@ -1,24 +1,20 @@
 <template>
-  <svg 
-    :class="svgClass" 
-    aria-hidden="true" 
-    @click="emits('click')"
-  >
+  <svg :class="svgClass" aria-hidden="true" @click="emits('click')">
     <use :xlink:href="iconName"></use>
   </svg>
 </template>
-<script setup lang="ts"> 
+<script setup lang="ts">
 import { computed } from 'vue';
 
 const emits = defineEmits(["click"])
 const props = defineProps({
-  icon:{
+  icon: {
     type: String,
     required: true,
   },
   className: {
     type: String,
-    default:""
+    default: ""
   }
 })
 
