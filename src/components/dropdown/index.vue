@@ -5,8 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 type Trigger = 'click' | 'hover'
+const dropdown = ref<any>()
 const {show, trigger = 'click' } = defineProps<{
   show: boolean;
   trigger?: Trigger;
@@ -20,8 +21,8 @@ $design_width: 1920;//设计稿的宽度，根据实际项目调整
 $design_height: 1080;//设计稿的高度，根据实际项目调整
 
 @function px2rem($px) {
-   $design_font_size: 16;
-   @return calc($px/$design_font_size) + rem;
+   $design_font_size: 18;
+   @return calc($px / $design_font_size) + rem;
 }
 
 .dropdown {

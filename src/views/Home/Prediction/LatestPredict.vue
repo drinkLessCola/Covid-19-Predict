@@ -141,21 +141,21 @@
     .split1{
         font-size: 24px;
         font-weight: bold;
-        font-family: Gilroy-Bold;
+        font-family: PingFang SC;
         color: #000000;
         height: 44px;
     }
     .split2{
         font-size: 42px;
         font-weight: bold;
-        font-family: D-DIN-Bold;
+        font-family: DIN;
         color: #5438F5;
         height: 44px;
     }
     .split3{
         font-size: 24px;
         font-weight: bold;
-        font-family: Gilroy-Bold;
+        font-family: PingFang SC;
         color: #000000;
         height: 44px;
     }

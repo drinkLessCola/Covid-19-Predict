@@ -9,7 +9,7 @@ const router = createRouter({
   linkActiveClass:'router-active',
   routes: [
     {
-      path:'/',
+      path:'/home',
       name:'Home',
       component:Home
     },
@@ -28,6 +28,10 @@ const router = createRouter({
       name:'About',
       component:() => About
     },
+    {
+      path: '/',
+      redirect: '/home'
+    }
   ]
 })
 

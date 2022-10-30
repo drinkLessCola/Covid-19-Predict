@@ -1,89 +1,81 @@
 <template>
-  <div>
-    <aside>
-      <ul class="menu">
-        <li>分布情况图</li>
-        <li>趋势图</li>
-        <li>国内突发新冠疫情预测</li>
-      </ul>
-    </aside>
-    <main ref="main">
-      <cumulativeMap></cumulativeMap>
-    </main>
-  </div>
-  
+  <aside>
+    <ul class="menu" @click="handleClickAnchor">
+      <li data-href="distribution">分布情况图</li>
+      <li >趋势图</li>
+      <li data-href="lastestPredict">国内突发新冠疫情预测</li>
+    </ul>
+  </aside>
+  <main ref="main">
+    <Scrollbar ref="scrollbar">
+      <template #default>
+        <Distribution id="distribution"></Distribution>
+        <ul>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+          <li>12</li>
+        </ul>
+        <LatestPredict id="lastestPredict"></LatestPredict>
+      </template>
+    </Scrollbar>
+  </main>
 </template>
 
 <script setup lang="ts">
-import cumulativeMap from '@/components/charts/cumulativeMap.vue'
-import MonthPicker from '@/components/picker/MonthPicker.vue'
-import DateDotPicker from '@/components/picker/DateDotPicker.vue'
+
 import { onMounted, ref, reactive, computed } from 'vue'
+import Distribution from './Distribution/index.vue'
+import LatestPredict from './Prediction/LatestPredict.vue'
+import Scrollbar from '../../components/scrollbar/index.vue'
 
-const now = new Date()
-const dayMap = ['SUN', 'MON', 'TUE', 'WEDN', 'THU', 'FRI', 'SAT']
+const scrollbar = ref<any>()
+const main = ref<any>()
 
-let year = ref(now.getFullYear()),
-    month = ref(now.getMonth() + 1),
-    date = ref(now.getDate()),
-    day = computed(() => dayMap[new Date(year.value, month.value - 1, date.value).getDay()]),
-    dateStr = computed(() => `${`0${month.value}`.slice(-2)}.${`0${date.value}`.slice(-2)}`)
+function handleClickAnchor(event: MouseEvent) {
+  const target = event.target as HTMLElement
+  const anchor = target.closest('li')
 
-// fake data
-const data = reactive({
-  currentDiagnose: 3808,
-  currentSymptomless: 182,
-  incrementDiagnose: 14679,
-  incrementSymptomless: 534
-})
+  if(!anchor) return 
+  const href = anchor.dataset.href
+  const hrefElem = (main.value as HTMLElement).querySelector(`#${href}`)
+  console.log(hrefElem)
 
-const mainDom = ref<any>()
-function onScroll (e:Event) {
-  console.log('!!!')
+  if(!hrefElem) return
+  // scrollbar.value.scrollTo(0,500)
+  scrollbar.value.scrollIntoView(hrefElem)
 }
 
-function joinCommaInNumber(num: number):string {
-  let arr = []
-  while(num) {
-    arr.push(num % 1000)
-    num = Math.floor(num / 1000)
-  }
-  arr.reverse()
-  return arr.join(',')
-}
-function handleDateChange(newDate: number):void {
-  date.value = newDate
-}
-function handleMonthChange(newYear: number, newMonth:number):void {
-  month.value = newMonth
-  year.value = newYear
-}
 onMounted(() => {
-  window.addEventListener('scroll', onScroll, true)
+  console.log(scrollbar.value)
 })
-
 </script>
 
 <style lang="scss" scoped>
-$design_width: 1920;//设计稿的宽度，根据实际项目调整
-$design_height: 1080;//设计稿的高度，根据实际项目调整
-
-@function px2rem($px) {
-   $design_font_size: 16;
-   @return calc($px/$design_font_size) + rem;
-}
 
 main {
   flex:1;
   display: flex;
-  justify-content: center;
-  margin: px2rem(30) 0;
-  .right-panel {
-    margin-left: px2rem(30);
-    display: flex;
-    flex:1;
-    flex-direction: column;
-  }
+  flex-direction: column;
+  box-sizing: border-box;
+  height:100%;
+  overflow: hidden;
 }
 
 .menu {
@@ -123,69 +115,6 @@ main {
         }
       }
     }
-}
-
-.date {
-  display:flex;
-  color: #3d3d3d;
-  align-items: center;
-  padding-left: 1rem;
-  margin-bottom: px2rem(10);
-  line-height: px2rem(35);
-  .date-left {
-    font-family: Gilroy;
-    font-weight:500;
-    font-size: px2rem(56);
-    margin-right: px2rem(10);
-  }
-  .date-right {
-    display:flex;
-    flex-direction: column;
-    font-family: DIN Light;
-    font-size: px2rem(22);
-    line-height: px2rem(24);
-  }
-}
-
-.info {
-  display: flex;
-  flex-direction: column;
-  .info-item {
-    display: flex;
-    margin: 1rem 0;
-
-    .data-cell {
-      position:relative;
-      display: flex;
-      flex-direction: column;
-      padding: 0 1rem;
-      line-height:px2rem(35);
-      & + .data-cell::after {
-        position:absolute;
-        content:'';
-        left:0;
-        top:px2rem(7);
-        width:1px;
-        height:px2rem(20);
-        background-color: #555;
-      }
-
-      .data-title {
-        font-size:px2rem(18);
-        font-weight: 400;
-        color:#555;
-        margin-bottom:px2rem(10);
-      }
-      .data {
-        width: 100%;
-        color:var(--highlight);
-        font-family: DIN;
-        font-weight: 700;
-        font-size: px2rem(42);
-        text-align: right;
-      }
-    }
-  }
 }
 
 @media (min-width: 1024px) {

@@ -1,11 +1,20 @@
 <template>
-  <div class="month-picker">
+  <div class="month-picker" ref="monthPicker">
     <div class="picker-input" @click="toggleDropdown">
+      <svg-icon icon="calendar" class="icon"></svg-icon>
       <input :value="date">
     </div>
-    <!-- TODO:后续将 dropdown 封装为一个组件 -->
-    <dropdown :show="dropdownVisible">
+    <dropdown :show="dropdownVisible" >
       <template #default>
+        <section class="year-bar">
+          <button @click="toPrevYear">
+            <svg-icon icon="arrow-left" class="icon"></svg-icon>
+          </button>
+          <div class="year">{{year}}</div>
+          <button @click="toNextYear">
+            <svg-icon icon="arrow-right" class="icon"></svg-icon>
+          </button>
+        </section>
         <table class="month-table">
           <tr v-for="m, row in month" :key="row">
             <td v-for="monthStr, col in m" :key="monthStr" @click="handlePick(row * 4 + col)">
@@ -19,38 +28,65 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 import dropdown from '../dropdown/index.vue';
 
 const emit = defineEmits(['changeMonth'])
 const month = [['一月', '二月', '三月', '四月'], ['五月', '六月', '七月', '八月'], ['九月', '十月', '十一月', '十二月']]
 const curMonth = new Date().getMonth()
 
+const monthPicker = ref<any>()
 const year = ref(new Date().getFullYear())
 let selectedMonth = ref(curMonth)
 let dropdownVisible = ref(false)
 const date = computed(() => `${year.value}-${selectedMonth.value + 1}`)
 
+
+
 function toggleDropdown () {
-  dropdownVisible.value = !dropdownVisible.value
+  // dropdown 可见
+  if(dropdownVisible.value) {
+    dropdownVisible.value = false
+    document.removeEventListener('click', handleGlobalClick)
+  } else {
+    dropdownVisible.value = true
+    // nextTick(() => {
+      document.addEventListener('click', handleGlobalClick)
+    // })
+  }
 }
+
+function handleGlobalClick (event:Event) {
+  if(!dropdownVisible.value) return
+  const target = event.target as HTMLElement
+  // 点击 dropdown 外侧区域
+  if(!monthPicker.value.contains(target)) {
+    dropdownVisible.value = false
+  }
+}
+
 function handlePick (month: number) {
   selectedMonth.value = month
   dropdownVisible.value = false
-  emit('changeMonth', 2022, month + 1)
+  emit('changeMonth', year.value, month + 1)
+}
+
+function toPrevYear () { 
+  year.value-- 
+  emit('changeMonth', year.value, selectedMonth.value + 1)
+}
+
+function toNextYear () { 
+  year.value++ 
+  emit('changeMonth', year.value, selectedMonth.value + 1)
 }
 </script>
 
 <style lang="scss">
-$design_width: 1920;//设计稿的宽度，根据实际项目调整
-$design_height: 1080;//设计稿的高度，根据实际项目调整
-
-@function px2rem($px) {
-   $design_font_size: 16;
-   @return calc($px/$design_font_size) + rem;
-}
+@import "@/assets/px2rem.scss";
 
 .month-picker {
+
 }
 .picker-input {
   display: flex;
@@ -76,7 +112,23 @@ $design_height: 1080;//设计稿的高度，根据实际项目调整
     color: var(--color-picker-text);
   }
 }
-
+.year-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1rem .5rem 1rem;
+  line-height:1rem;
+  box-sizing: border-box;
+  .year {
+    color: #3d3d3d;
+    font-family: Gilroy;
+    font-size: 1.5rem;
+  }
+  button {
+    background:none;
+    border:none;
+  }
+}
 .month-table {
   table-layout: fixed;
   width: 100%;
@@ -106,5 +158,11 @@ $design_height: 1080;//设计稿的高度，根据实际项目调整
   }
 
   
+}
+
+.icon {
+  width:px2rem(30);
+  height:px2rem(30);
+  cursor:pointer;
 }
 </style>
