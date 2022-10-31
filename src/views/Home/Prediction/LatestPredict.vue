@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   padding: 0;
@@ -106,8 +106,8 @@ li {
   height: 40px;
   margin-left: 10px;
   font-size: 40px;
-  font-family: PingFang SC Bold;
-  font-weight: normal;
+  font-family: PingFang SC;
+  font-weight: bold;
   color: #333333;
   line-height: 40px;
   /* background-color: yellow; */
@@ -153,7 +153,7 @@ li {
 
 .split1 {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 500;
   font-family: PingFang SC;
   color: #000000;
   height: 44px;
@@ -169,7 +169,7 @@ li {
 
 .split3 {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 500;
   font-family: PingFang SC;
   color: #000000;
   height: 44px;

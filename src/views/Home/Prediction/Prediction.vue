@@ -15,9 +15,9 @@
 </template>
   
 <script>
-import LatestPredict from './LatestPredict'
-import PredictTitle from './PredictTitle'
-import HistoryPredict from './HistoryPredict'
+import LatestPredict from './LatestPredict.vue'
+import PredictTitle from './PredictTitle.vue'
+import HistoryPredict from './HistoryPredict.vue'
 
 export default {
   name: "Prediction",
@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 * {
   margin: 0;
   padding: 0;

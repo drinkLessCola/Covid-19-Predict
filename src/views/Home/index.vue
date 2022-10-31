@@ -32,7 +32,7 @@
           <li>12</li>
           <li>12</li>
         </ul>
-        <LatestPredict id="lastestPredict"></LatestPredict>
+        <Prediction id="lastestPredict"></Prediction>
       </template>
     </Scrollbar>
   </main>
@@ -42,8 +42,8 @@
 
 import { onMounted, ref, reactive, computed } from 'vue'
 import Distribution from './Distribution/index.vue'
-import LatestPredict from './Prediction/LatestPredict.vue'
 import Scrollbar from '../../components/scrollbar/index.vue'
+import Prediction from './Prediction/Prediction.vue';
 
 const scrollbar = ref<any>()
 const main = ref<any>()

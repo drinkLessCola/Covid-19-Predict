@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 type Trigger = 'click' | 'hover'
 const dropdown = ref<any>()
 const { show, trigger = 'click' } = defineProps<{
