@@ -3,12 +3,15 @@
     <div class="H-Box">
       <div class="chart">
         <!-- <img src="" alt=""> -->
-        <div class="mask">
-          <h3>深圳·20221015</h3>
-          <div class="linkBox">
-            <h4>查看详情</h4>
-            <div class="H-arrow">></div>
-          </div>
+        <div class="maskBox">
+          <div style="opacity:0;width: 400px;height: 300px;"></div>
+            <div class="mask">
+              <h3>深圳·20221015</h3>
+              <div class="linkBox">
+                <h4>查看详情</h4>
+                <div class="H-arrow">></div>
+              </div>
+            </div>          
         </div>
       </div>
       <div class="H-infoBox">
@@ -50,11 +53,21 @@ export default {
   opacity: 1;
   border: 1px solid rgba(170, 170, 170, 0.5);
   /* background-color: red; */
+  overflow: hidden;
 }
 
 .chart img {
   width: 100%;
   height: 100%;
+}
+
+.maskBox {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: 600px;
+  opacity: 0;
+  transition: all 0.4s;
 }
 
 .mask {
@@ -66,10 +79,10 @@ export default {
   height: 300px;
   background: rgba(65, 80, 255, 0.8);
   border-radius: 10px 10px 10px 10px;
-  opacity: 0;
 }
 
-.chart:hover .mask {
+.chart:hover .maskBox {
+  margin-top: -300px;
   opacity: 1;
 }
 
