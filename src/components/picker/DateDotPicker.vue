@@ -41,7 +41,7 @@ const curDate = new Date().getDate(),
  */
 function isAvailable(date: number): boolean {
   const { month } = props
-  return (curMonth > month) || (curMonth === month && date <= curDate)
+  return props.year < new Date().getFullYear() || (curMonth > month) || (curMonth === month && date <= curDate)
 }
 
 function isSelected(date: number): boolean {

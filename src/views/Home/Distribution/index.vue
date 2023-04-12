@@ -6,7 +6,7 @@
         <MonthPicker :year="year" :month="month" @changeMonth="handleMonthChange"></MonthPicker>
       </header>
       <!-- 疫情地图 -->
-      <cumulativeMap></cumulativeMap>
+      <cumulativeMap :data="mapData"></cumulativeMap>
       <footer>
         <!-- 日选择器 -->
         <DateDotPicker :year="year" :month="month" :selectedDate="date" @changeDate="handleDateChange"></DateDotPicker>
@@ -20,7 +20,7 @@
           <span>{{ day }}</span>
         </span>
       </div>
-      <ul class="info">
+      <!-- <ul class="info">
         <li class="info-item">
           <div class="data-cell">
             <span class="data-title">全国现有本土确诊</span>
@@ -41,7 +41,7 @@
             <span class="data">{{ joinCommaInNumber(data.incrementSymptomless) }}</span>
           </div>
         </li>
-      </ul>
+      </ul> -->
     </section>
   </div>
 </template>
@@ -50,14 +50,13 @@ import { onMounted, ref, reactive, computed } from 'vue'
 import cumulativeMap from '@/components/charts/cumulativeMap.vue'
 import MonthPicker from '@/components/picker/MonthPicker.vue'
 import DateDotPicker from '@/components/picker/DateDotPicker.vue'
-
-
-const now = new Date()
+import rawMapData from '@/mock/map.json'
+console.log('!', rawMapData)
 const dayMap = ['SUN', 'MON', 'TUE', 'WEDN', 'THU', 'FRI', 'SAT']
 
-let year = ref(now.getFullYear()),
-  month = ref(now.getMonth() + 1),
-  date = ref(now.getDate()),
+let year = ref(2022),
+  month = ref(10),
+  date = ref(20),
   day = computed(() => dayMap[new Date(year.value, month.value - 1, date.value).getDay()]),
   dateStr = computed(() => `${`0${month.value}`.slice(-2)}.${`0${date.value}`.slice(-2)}`)
 
@@ -69,7 +68,11 @@ const data = reactive({
   incrementSymptomless: 534
 })
 
-
+const mapData = computed(() => {
+  const d = `${year.value}-${('0' + month.value).slice(-2)}-${('0' + date.value).slice(-2)}` as keyof typeof rawMapData
+  console.log(d, rawMapData[d])
+  return rawMapData[d]
+})
 
 function joinCommaInNumber(num: number): string {
   let arr = []
@@ -98,6 +101,7 @@ function handleMonthChange(newYear: number, newMonth: number): void {
 .distribution {
   display: flex;
   margin: px2rem(30) 1rem;
+  height: 100vh;
 }
 
 .right-panel {

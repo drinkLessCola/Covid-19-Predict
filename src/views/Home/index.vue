@@ -10,28 +10,6 @@
     <Scrollbar ref="scrollbar">
       <template #default>
         <Distribution id="distribution"></Distribution>
-        <ul>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-          <li>12</li>
-        </ul>
         <Prediction id="lastestPredict"></Prediction>
       </template>
     </Scrollbar>
