@@ -21,6 +21,7 @@
   --text-dark-2: rgba(235, 235, 235, 0.64);
 
   --primary:#4B76FF;
+  --primary-mute:#90aaff;
   --highlight:#5438f5;
   --primary-light:#eaefff;
 }
@@ -49,6 +50,7 @@
   /* picker */
   --color-picker-text: #666666;
   --color-picker-border: #c0c0c0;
+  --el-color-primary: var(--primary);
 }
 
 /* @media (prefers-color-scheme: dark) {

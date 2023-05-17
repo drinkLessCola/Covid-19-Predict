@@ -10,14 +10,17 @@ import 'virtual:svg-icons-register'
 import debounce from './utils/debounce'
 // import china from 'echarts/map/json/china.json'
 // echarts.registerMap('china',china)
-
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import 'element-plus/dist/index.css'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-
 app.component('svg-icon', SvgIcon)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
 
 app.mount('#app');
 
@@ -37,3 +40,4 @@ win.addEventListener('pageshow', debounce(refreshRem, 500), false);
 
 refreshRem();
 })(window);
+
