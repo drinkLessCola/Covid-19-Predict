@@ -55,6 +55,7 @@ export interface IChartData {
   forcast: number
 }
 
+console.log('province', props.province)
 const chartInstance = ref<echarts.EChartsType | null>(null)
 // defineProps 会被提升至 setup 函数作用域之外，因此不能引用在 setup script 中定义的变量。
 // 需要作为另一个模块引入 or 定义在普通 script 里
