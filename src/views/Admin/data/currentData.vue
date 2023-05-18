@@ -1,9 +1,10 @@
 <template>
-  <el-autocomplete
+    <el-autocomplete
     v-model="province"
     :fetch-suggestions="querySearch"
     placeholder="选择省份"
     @select="handleSelectProvince"
+    clearable
   >
     <template #suffix>
       <el-icon class="el-input__icon">
@@ -15,7 +16,8 @@
       <span class="link">{{ item.link }}</span>
     </template>
   </el-autocomplete>
-   <Suspense>
+
+  <Suspense>
     <line-chart :province="province" v-slot="{ chartData }">
       <el-table :data="chartData" style="width: 700px; margin: 0 auto;">
         <el-table-column prop="date" label="日期" width="180" />
@@ -58,11 +60,15 @@
       </span>
     </template>
   </el-dialog> -->
-</template>
 
+</template>
 <script setup lang="ts">
-import LineChart, { PROVINCE } from '@/components/charts/lineChart.vue';
 import { ref } from 'vue'
+import LineChart, { PROVINCE } from '@/components/charts/lineChart.vue';
+
+interface ListItem {
+  value: string
+}
 
 const province = ref('北京')
 const provinceList = Array.from(PROVINCE).map(p => ({ value: p }))
@@ -73,10 +79,8 @@ const querySearch = (queryStr: string, cb: any) => {
   cb(results)
 }
 
-interface ListItem {
-  value: string
-}
 const handleSelectProvince = (newProvince: ListItem) => {
   province.value = newProvince.value
 }
+
 </script>

@@ -37,7 +37,3 @@ export const deletePredict = (predictId: string) => {
     method: 'delete',
   })
 }
-
-export const uploadPredictCsv = () => {
-  
-}

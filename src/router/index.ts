@@ -2,12 +2,10 @@ import Home from '@/views/Home/index.vue'
 import About from '@/views/About/index.vue'
 import Literature from '@/views/Literature/index.vue'
 import System from '@/views/System/index.vue'
-import ArticleDetail from '@/views/ArticleDetail/index.vue'
 import Login from '@/views/Admin/login.vue'
-import Admin from '@/views/Admin/index.vue'
 import LayoutDefault from '@/layout/default.vue'
 import LayoutAdmin from '@/layout/admin.vue'
-import AdminData from '@/views/Admin/data.vue'
+import AdminData from '@/views/Admin/data/index.vue'
 import AdminLiterature from '@/views/Admin/literature.vue'
 import AdminUser from '@/views/Admin/user.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -16,7 +14,23 @@ const adminRoute = [
   {
     path: 'data',
     name: 'AdminData',
-    component: AdminData
+    component: AdminData,
+    children: [
+      {
+        path: 'current',
+        name: 'currentData',
+        component: () => import('@/views/Admin/data/currentData.vue')
+      },
+      {
+        path: 'upload',
+        name: 'uploadData',
+        component: () => import('@/views/Admin/data/UploadData.vue'),
+      },
+      {
+        path: '',
+        redirect: '/admin/data/current'
+      }
+    ]
   },
   {
     path: 'literature',
@@ -30,7 +44,7 @@ const adminRoute = [
   },
   {
     path: '',
-    redirect: 'dashboard'
+    redirect: 'admin/user'
   }
 ]
 
@@ -58,7 +72,7 @@ const childrenRoute = [
   {
     path: '/detail/:province',
     name: 'Detail',
-    component: () => ArticleDetail
+    component: () => import('@/views/ArticleDetail/index.vue')
   },
   {
     path: '',
@@ -71,14 +85,14 @@ const router = createRouter({
   linkActiveClass:'router-active',
   routes: [
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
       path: '/admin',
       component: LayoutAdmin,
       children: adminRoute
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/',

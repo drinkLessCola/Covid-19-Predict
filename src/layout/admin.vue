@@ -3,7 +3,7 @@
     <aside class="admin-sidebar">
       <ul class="menu">
         <li 
-          :class="['menuitem', path === menuPath ? 'active' : '']"
+          :class="['menuitem', path.match(menuPath) ? 'active' : '']"
           index="1"
           v-for="{ label, key, icon, path: menuPath } in menu"
           :key="key"
@@ -34,11 +34,11 @@ import router from '@/router'
 
 const path = ref(useRoute().path)
 const menu = [
-  { label: '用户管理', key: '1', icon: User, path: '/admin/user' },
-  { label: '参考文献', key: '2', icon: Document, path: '/admin/literature' },
-  { label: '预测数据', key: '3', icon: DataLine, path: '/admin/data' }
+  { label: '用户管理', key: '1', icon: User, pattern: '/admin/user', path: '/admin/user' },
+  { label: '参考文献', key: '2', icon: Document, path: '/admin/literature', pattern: '/admin/literature' },
+  { label: '预测数据', key: '3', icon: DataLine, path: '/admin/data', pattern: '/admin/data/(.*)' }
 ]
-const title = computed(() => menu.filter((item) => item.path === path.value)[0].label)
+const title = computed(() => menu.filter((item) => path.value.match(item.path))[0].label)
 const handleMenuItemClick = (targetPath: string) => {
   router.push(targetPath)
 }
