@@ -8,8 +8,6 @@ import './assets/main.scss'
 
 import 'virtual:svg-icons-register'
 import debounce from './utils/debounce'
-// import china from 'echarts/map/json/china.json'
-// echarts.registerMap('china',china)
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 

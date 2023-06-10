@@ -49,13 +49,13 @@ import * as echarts from 'echarts'
 import { useRoute } from 'vue-router'
 import { ElTable } from 'element-plus'
 import 'element-plus/es/components/table/style/css'
+import { getPredictList } from '@/api/predict'
 export interface IChartData {
   date: string
   real: number
   forcast: number
 }
 
-console.log('province', props.province)
 const chartInstance = ref<echarts.EChartsType | null>(null)
 // defineProps 会被提升至 setup 函数作用域之外，因此不能引用在 setup script 中定义的变量。
 // 需要作为另一个模块引入 or 定义在普通 script 里
@@ -71,10 +71,10 @@ const props = defineProps({
 const chartDom = ref<HTMLDivElement>()
 const chartData = ref<IChartData[]>([])
 
-const province = props.province ?? useRoute().params.province
-const json = await import(`/src/mock/predict/${province}.json`)
-console.log(json.default)
-chartData.value = (json.default as IChartData[]).map(
+const province = props.province ?? useRoute().params.province as string
+const predictData = await getPredictList(province)
+console.log('predictData', predictData)
+chartData.value = (predictData as unknown as IChartData[]).map(
   ({ date, real, forcast }) => ({ 
     date,
     real: Math.round(real),
@@ -134,9 +134,10 @@ onMounted(() => {
 watch(
   () => props.province,
   async (newProvince, oldProvince) => {
+    console.log('PROVINCE', newProvince, oldProvince)
     if (newProvince === oldProvince || !PROVINCE.includes(newProvince as IProvince)) return
-    const json = await import(`/src/mock/predict/${newProvince}.json`)
-    chartData.value = (json.default as IChartData[]).map(
+    const predictData = await getPredictList(province)
+    chartData.value = (predictData as unknown as IChartData[]).map(
       ({ date, real, forcast }) => ({ 
         date,
         real: Math.round(real),

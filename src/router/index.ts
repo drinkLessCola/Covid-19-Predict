@@ -8,6 +8,7 @@ import LayoutAdmin from '@/layout/admin.vue'
 import AdminData from '@/views/Admin/data/index.vue'
 import AdminLiterature from '@/views/Admin/literature.vue'
 import AdminUser from '@/views/Admin/user.vue'
+import AdminAbout from '@/views/Admin/about.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const adminRoute = [
@@ -43,6 +44,11 @@ const adminRoute = [
     component: AdminUser
   },
   {
+    path: 'about',
+    name: 'AdminAbout',
+    component: AdminAbout
+  },
+  {
     path: '',
     redirect: 'admin/user'
   }
@@ -57,12 +63,12 @@ const childrenRoute = [
   {
     path:'/system',
     name:'System',
-    component:() => System
+    component: () => import('@/views/System/index.vue')
   },
   {
     path:'/literature',
     name:'Literature',
-    component:() => Literature
+    component: () => import('@/views/Literature/index.vue')
   },
   {
     path:'/about',

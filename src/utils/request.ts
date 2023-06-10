@@ -1,40 +1,53 @@
+// import useUserStore from "@/stores/user"
 import router from '@/router'
-import { useUserStore } from '@/stores/user'
+import useUserStore from '@/stores/user'
 import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const request = axios.create({
   baseURL: '/api',
-  timeout: 10000,
+  timeout: 10 * 1000,
+  headers: {
+    "Content-Type": 'application/json'
+  }
 })
 
+type IErrorStatus = number
+const handleError = (status: IErrorStatus, msg: string) => {
+  switch (status) {
+    case 401:
+      router.replace({
+        path: '/login',
+        query: {
+          redirect: router.currentRoute.value.path
+        }
+      })
+      break
+    case 404:
+      break
+    // 其他错误，直接抛出错误提示
+    default:
+      break
+  }
+  return Promise.reject(msg)
+}
+
 let activeAxios = 0
-let timer: NodeJS.Timeout
+let timer: number | null
 
 const showLoading = () => {
   activeAxios++
   if (timer) {
     clearTimeout(timer)
   }
-  // timer = setTimeout(() => {
-  //   if (activeAxios > 0) {
-  //     emitter.emit('showLoading')
-  //   }
-  // }, 400)
 }
 
-// const closeLoading = () => {
-//   acitveAxios--
-//   if (acitveAxios <= 0) {
-//     clearTimeout(timer)
-//     emitter.emit('closeLoading')
-//   }
-// }
 // http request 拦截器
 request.interceptors.request.use(
   config => {
     showLoading()
     const userStore = useUserStore()
+    console.log('userStore', userStore)
     config.headers = {
       ...config.headers,
       'Content-Type': 'application/json',
@@ -59,19 +72,16 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     try {
-      const { config, data, status } = response
-      console.log(response)
+      const { config, data: responseBody, status } = response
+      const { msg, data, code } = responseBody
       const userStore = useUserStore()
-      if (!config.doNotShowLoading) {
-        // closeLoading()
-      }
-      // if (response.headers['new-token']) {
-      //   userStore.setToken(response.headers['new-token'])
-      // }
-      switch (data.code) {
-        case 200: return data.data
+      switch (+code) {
+        case 200: 
+          return data
         case 401: 
-          router.push({ name: 'Login', replace: true })
+          ElMessage.error('登录状态过期，请重新登录')
+          router.replace({ name: 'Login' })
+          return
         default:         
           ElMessage({
             showClose: true,
@@ -92,11 +102,6 @@ request.interceptors.response.use(
   },
   error => {
     console.log(error)
-
-    if (!error.config.donNotShowLoading) {
-      // closeLoading()
-    }
-
     if (!error.response) {
       ElMessageBox.confirm(`
         <p>检测到请求错误</p>
@@ -116,6 +121,8 @@ request.interceptors.response.use(
           type: 'error',
           message: '登录状态过期，请重新登录'
         })
+        const userStore = useUserStore()
+        userStore.logout()
         router.replace('/login')
         break
       case 500:

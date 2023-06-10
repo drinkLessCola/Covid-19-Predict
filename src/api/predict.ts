@@ -1,15 +1,15 @@
 import service from '@/utils/request'
 
-interface IPredict {
+export interface IPredict {
   date: string
   province: string
-  real: string
-  forcast: string
+  real: number
+  forcast: number
 }
 
-export const getPredictList = () => {
+export const getPredictList = (province: string) => {
   return service({
-    url: '/predict',
+    url: `/predict/${province}`,
     method: 'get'
   })
 }
@@ -22,13 +22,13 @@ export const createPredict = (data: IPredict) => {
   })
 }
 
-export const updatePredict = (data: IPredict, prevPredictName: string) => {
-  return service({
-    url: `/predict?prename=${prevPredictName}`,
-    method: 'put',
-    data: JSON.stringify(data)
-  })
-}
+// export const updatePredict = (data: IPredict, prevPredictName: string) => {
+//   return service({
+//     url: `/predict?prename=${prevPredictName}`,
+//     method: 'put',
+//     data: JSON.stringify(data)
+//   })
+// }
 
 export const deletePredict = (predictId: string) => {
   // console.log(bookId)

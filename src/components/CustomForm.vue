@@ -204,10 +204,8 @@ function handleEdit(row: any) {
     } 
     editFormData[prop] = rowData[prop]
   })
-  // console.log(editFields.value, editFormData)
   oldData.value = Object.assign({}, editFormData) as any
   editForm.value = editFormData as any
-  // console.log('editForm', editForm)
   editFormVisible.value = true
 }
 

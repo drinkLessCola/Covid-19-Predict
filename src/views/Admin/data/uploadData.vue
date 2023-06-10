@@ -16,48 +16,33 @@
       <span class="link">{{ item.link }}</span>
     </template>
   </el-autocomplete>
-
-  <el-table :data="chartData" style="width: 700px; margin: 0 auto;">
-    <el-table-column prop="date" label="日期" width="180" />
-    <el-table-column prop="real" label="实际确诊人数" width="180" />
-    <el-table-column prop="forcast" label="预测确诊人数" />
-    <el-table-column label="操作">
-      <el-button type="text">修改</el-button>
-    </el-table-column>
-  </el-table>
-
-<!-- <el-dialog v-model="editFormVisible" :title="editDialogTitle">
-  <el-form :model="editForm" :rules="editFormRules" ref="editFormElem" label-width="100px">
-    <el-form-item :label="label" :prop="prop" v-for="{ label, prop, isNumber, values, options } in editFields">
-      <el-radio-group v-model="editForm[prop]" v-if="values">
-        <el-radio :label="value" v-for="value in values"></el-radio>
-      </el-radio-group>
-      <el-select v-model="editForm[prop]" v-else-if="options">
-        <el-option
-          v-for="{ label, value } in options"
-          :key="label"
-          :label="label"
-          :value="value"
-        />
-      </el-select>
-      <el-input v-model.number="editForm[prop]" autocomplete="off" v-else-if="isNumber" />
-      <el-input v-model="editForm[prop]" autocomplete="off" :disabled="prop === id" v-else />
-    </el-form-item>
-  </el-form>
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="handleCancel">取消</el-button>
-      <el-button type="primary" @click="handleUpdate">
-        保存
-      </el-button>
-    </span>
-  </template>
-</el-dialog> -->
-
+  <el-upload
+    drag
+    action=""
+    ref="uploadRef"
+    accept="csv"
+    :auto-upload="false"
+    :onChange="handleSelect"
+    style="margin-top: 20px;"
+  >
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+    <div class="el-upload__text">
+      将文件拖到此处 或 点击上传
+    </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        请上传 csv 文件
+      </div>
+    </template>
+  </el-upload>
+  <el-button type="primary" @click="batchUpload">
+    上传
+  </el-button>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
 import LineChart, { PROVINCE } from '@/components/charts/lineChart.vue';
+import { ElMessage } from 'element-plus';
 
 interface ListItem {
 value: string
@@ -66,14 +51,35 @@ value: string
 const province = ref('北京')
 const provinceList = Array.from(PROVINCE).map(p => ({ value: p }))
 const querySearch = (queryStr: string, cb: any) => {
-const results = queryStr
-  ? provinceList.filter((province) => !!~province.value.indexOf(queryStr))
-  : provinceList
-cb(results)
+  const results = queryStr
+    ? provinceList.filter((province) => !!~province.value.indexOf(queryStr))
+    : provinceList
+  cb(results)
 }
 
 const handleSelectProvince = (newProvince: ListItem) => {
-province.value = newProvince.value
+  province.value = newProvince.value
 }
 
+const uploadFile = ref<null | File>(null)
+const handleSelect = (file: File, fileList: File[]) => {
+  console.log(file, fileList)
+  uploadFile.value = file
+}
+
+const batchUpload = async () => {
+  if(!uploadFile.value) {
+    ElMessage.error('请上传文件！')
+    return
+  }
+  try {
+    const formData = new FormData()
+    
+    ElMessage.success('上传成功！')
+  } catch (err) {
+    ElMessage.error('上传失败！')
+  }
+
+  uploadFile.value = null
+}
 </script>

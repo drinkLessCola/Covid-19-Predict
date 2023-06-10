@@ -36,7 +36,8 @@ const path = ref(useRoute().path)
 const menu = [
   { label: '用户管理', key: '1', icon: User, pattern: '/admin/user', path: '/admin/user' },
   { label: '参考文献', key: '2', icon: Document, path: '/admin/literature', pattern: '/admin/literature' },
-  { label: '预测数据', key: '3', icon: DataLine, path: '/admin/data', pattern: '/admin/data/(.*)' }
+  { label: '预测数据', key: '3', icon: DataLine, path: '/admin/data', pattern: '/admin/data/(.*)' },
+  { label: '关于我们', key: '4', icon: User, path: '/admin/about', pattern: '/admin/about' }
 ]
 const title = computed(() => menu.filter((item) => path.value.match(item.path))[0].label)
 const handleMenuItemClick = (targetPath: string) => {
