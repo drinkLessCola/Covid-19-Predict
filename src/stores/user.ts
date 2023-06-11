@@ -109,11 +109,10 @@ const useUserStore = defineStore('user', {
   actions: {
     async login (loginData: ILoginData) {
       try {
-        const { token } = (await login(loginData)) ?? {}
+        const { token } = await login(loginData)
         this.token = token
 
         localStorage.setItem('userInfo', JSON.stringify({ token }))
-
         ElMessage.success('登录成功')
         router.push('/admin/user')
       } catch (err) {
