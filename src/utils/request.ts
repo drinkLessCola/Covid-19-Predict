@@ -51,8 +51,8 @@ request.interceptors.request.use(
     config.headers = {
       ...config.headers,
       'Content-Type': 'application/json',
-      'Token': userStore.token
     }
+    if (config.url !== '/user/login') config.headers.Token = userStore.token
     return config
   },
   error => {
@@ -80,6 +80,7 @@ request.interceptors.response.use(
           return data
         case 401: 
           ElMessage.error('登录状态过期，请重新登录')
+          localStorage.clear()
           router.replace({ name: 'Login' })
           return
         default:         
